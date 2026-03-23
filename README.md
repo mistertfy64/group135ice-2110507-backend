@@ -1,0 +1,12 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/iG82Gnyy)
+<h1>Don't forget to add config/config.env</h1>
+
+```
+PORT 
+NODE_ENV
+MONGO_URI 
+
+JWT_SECRET 
+JWT_EXPIRE 
+JWT_COOKIE_EXPIRE 
+```
