@@ -2,7 +2,7 @@
 node_modules/
 
 #environment
-config/config.env
+# config/config.env
 
 #testcase
 testCase/
