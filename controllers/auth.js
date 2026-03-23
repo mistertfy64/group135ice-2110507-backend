@@ -32,12 +32,13 @@ const parseCookieExpiryMs = (value) => {
 exports.register = async (req, res, next) => {
   try {
     const { name, email, password, role, tel } = req.body;
+
     //Created User
     const user = await User.create({
       name,
       email,
       password,
-      role,
+      role: "user",
       tel
     });
     //Created token
