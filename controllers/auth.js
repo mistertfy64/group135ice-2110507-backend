@@ -1,5 +1,34 @@
 const User = require("../models/User");
 
+const DEFAULT_COOKIE_EXPIRE_MS = 24 * 60 * 60 * 1000;
+
+const parseCookieExpiryMs = (value) => {
+  if (!value) return DEFAULT_COOKIE_EXPIRE_MS;
+
+  const normalized = String(value).trim().toLowerCase();
+  const numericValue = Number(normalized);
+
+  if (Number.isFinite(numericValue)) {
+    return numericValue;
+  }
+
+  const durationMatch = normalized.match(/^(\d+)(ms|s|m|h|d)$/);
+  if (!durationMatch) return DEFAULT_COOKIE_EXPIRE_MS;
+
+  const amount = Number(durationMatch[1]);
+  const unit = durationMatch[2];
+
+  const unitToMs = {
+    ms: 1,
+    s: 1000,
+    m: 60 * 1000,
+    h: 60 * 60 * 1000,
+    d: 24 * 60 * 60 * 1000
+  };
+
+  return amount * unitToMs[unit];
+};
+
 exports.register = async (req, res, next) => {
   try {
     const { name, email, password, role, tel } = req.body;
@@ -59,14 +88,12 @@ exports.login = async (req, res, next) => {
 const sendTokenResponse = (user, statusCode, res) => {
   //Create token
   const token = user.getSignedJwtToken();
+  const cookieExpireMs = parseCookieExpiryMs(process.env.JWT_COOKIE_EXPIRE);
 
-  // there's a `* 1` here so it's a number
   const options = {
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 1),
+    expires: new Date(Date.now() + cookieExpireMs),
     httpOnly: true
   };
-
-  console.debug(options);
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
