@@ -1,3 +1,4 @@
+const escapeStringRegexp = require("escape-string-regexp");
 const Hotel = require("../models/Hotel.js");
 const Booking = require("../models/Booking.js");
 exports.getHotels = async (req, res, next) => {
@@ -11,7 +12,6 @@ exports.getHotels = async (req, res, next) => {
 
   //Loop over remove fields and delete them from reqQuery
   removeFields.forEach((param) => delete reqQuery[param]);
-  console.log(reqQuery);
 
   //Create query String
   let queryStr = JSON.stringify(reqQuery);
@@ -22,8 +22,16 @@ exports.getHotels = async (req, res, next) => {
     (match) => `$${match}`
   );
 
-  //finding resource
-  query = Hotel.find(JSON.parse(queryStr)).populate("bookings");
+  //find substring
+  if (reqQuery["substring"]) {
+    const substring = escapeStringRegexp(reqQuery["substring"]);
+    query = Hotel.find({
+      name: { $regex: substring, $options: "i" }
+    }).populate("bookings");
+    delete reqQuery["substring"];
+  } else {
+    query = Hotel.find(JSON.parse(queryStr)).populate("bookings");
+  }
 
   //select field
   if (req.query.select) {
