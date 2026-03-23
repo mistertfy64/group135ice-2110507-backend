@@ -1,0 +1,8 @@
+#node
+node_modules/
+
+#environment
+config/config.env
+
+#testcase
+testCase/
