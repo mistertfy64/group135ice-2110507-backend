@@ -34,7 +34,7 @@ exports.getBookings = async (req, res, next) => {
       data: bookings
     });
   } catch (err) {
-    console.log(err);
+    console.error(err, err.stack);
     return res
       .status(500)
       .json({ success: false, message: "Cannot find Booking" });
@@ -68,7 +68,7 @@ exports.getBooking = async (req, res, next) => {
       data: booking
     });
   } catch (err) {
-    console.log(err);
+    console.error(err, err.stack);
     return res
       .status(500)
       .json({ success: false, message: "Cannot find booking" });
@@ -154,7 +154,7 @@ exports.addBooking = async (req, res, next) => {
 
     res.status(201).json({ success: true, data: booking });
   } catch (err) {
-    console.log(err);
+    console.error(err, err.stack);
     return res
       .status(500)
       .json({ success: false, message: "Cannot create Booking" });
@@ -187,7 +187,7 @@ exports.updateBooking = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: booking });
   } catch (err) {
-    console.log(err);
+    console.error(err, err.stack);
     return res
       .status(500)
       .json({ success: false, message: "Cannot update Booking" });
@@ -214,7 +214,7 @@ exports.deleteBooking = async (req, res, next) => {
     await booking.deleteOne();
     res.status(200).json({ success: true, data: {} });
   } catch (err) {
-    console.log(err);
+    console.error(err, err.stack);
     return res
       .status(500)
       .json({ success: false, message: "Cannot delete Booking" });

@@ -74,6 +74,7 @@ exports.getHotels = async (req, res, next) => {
       data: hotels
     });
   } catch (err) {
+    console.error(err, err.stack);
     res.status(400).json({ success: false });
   }
 };
@@ -88,6 +89,7 @@ exports.getHotel = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: hotel });
   } catch (err) {
+    console.error(err, err.stack);
     res.status(400).json({ success: false });
   }
 };
@@ -112,6 +114,7 @@ exports.updateHotel = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: hotel });
   } catch (err) {
+    console.error(err, err.stack);
     res.status(400).json({ success: false });
   }
 };
@@ -132,6 +135,7 @@ exports.deleteHotel = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: {} });
   } catch (err) {
+    console.error(err, err.stack);
     res.status(400).json({ success: false });
   }
 };

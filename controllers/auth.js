@@ -14,6 +14,7 @@ exports.register = async (req, res, next) => {
     //Created token
     sendTokenResponse(user, 201, res);
   } catch (err) {
+    console.error(err, err.stack);
     res.status(400).json({ success: false });
     console.log(err.stack);
   }
@@ -47,6 +48,7 @@ exports.login = async (req, res, next) => {
 
     sendTokenResponse(user, 200, res);
   } catch (err) {
+    console.error(err, err.stack);
     return res.status(401).json({
       success: false,
       msg: "Cannot convert email or password to string"
