@@ -60,10 +60,13 @@ const sendTokenResponse = (user, statusCode, res) => {
   //Create token
   const token = user.getSignedJwtToken();
 
+  // there's a `* 1` here so it's a number
   const options = {
-    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE),
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 1),
     httpOnly: true
   };
+
+  console.debug(options);
 
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
